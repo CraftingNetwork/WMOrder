@@ -1,23 +1,51 @@
 name: Build WMOrder
+
 on:
   push:
   pull_request:
   workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
           cache: maven
+
+      - name: Verify required migration resources
+        shell: bash
+        run: |
+          test -f src/main/resources/db/migration/sqlite/V1__initial.sql
+          test -f src/main/resources/db/migration/mysql/V1__initial.sql
+          echo "Both migration resources are present."
+
       - name: Test and package
         run: mvn --batch-mode --no-transfer-progress clean verify
-      - uses: actions/upload-artifact@v4
+
+      - name: Print test reports after failure
+        if: failure()
+        shell: bash
+        run: |
+          if [ -d target/surefire-reports ]; then
+            echo "===== Maven Surefire reports ====="
+            find target/surefire-reports -maxdepth 1 -type f -name '*.txt' -print -exec cat {} \;
+          else
+            echo "No Surefire reports were generated."
+          fi
+
+      - name: Upload WMOrder JAR
+        uses: actions/upload-artifact@v4
         with:
           name: WMOrder
           path: target/WMOrder-*.jar
