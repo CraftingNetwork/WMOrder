@@ -1,0 +1,2 @@
+package com.wildmare.wmorder.gui.session;
+public enum MenuType { BROWSER, MY_ORDERS, HISTORY, COLLECTION, CREATE, DETAILS, CONFIRM_CREATE, CONFIRM_FULFILL, CONFIRM_CANCEL, ADMIN_INSPECT }
