@@ -23,15 +23,65 @@ jobs:
           java-version: '21'
           cache: maven
 
-      - name: Verify required migration resources
+      - name: Verify source resources
         shell: bash
         run: |
+          set -euo pipefail
+          test -f src/main/resources/plugin.yml
           test -f src/main/resources/db/migration/sqlite/V1__initial.sql
           test -f src/main/resources/db/migration/mysql/V1__initial.sql
-          echo "Both migration resources are present."
+          echo "All required source resources are present."
 
       - name: Test and package
         run: mvn --batch-mode --no-transfer-progress clean verify
+
+      - name: Verify packaged plugin descriptor
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test -f target/classes/plugin.yml || {
+            echo "ERROR: Maven did not copy plugin.yml into target/classes."
+            find target/classes -maxdepth 3 -type f | sort || true
+            exit 1
+          }
+
+          JAR=$(find target -maxdepth 1 -type f \
+            -name 'WMOrder-*.jar' \
+            ! -name 'original-*' \
+            ! -name '*-sources.jar' \
+            ! -name '*-javadoc.jar' \
+            | sort | head -n 1)
+
+          test -n "$JAR" || {
+            echo "ERROR: No final WMOrder JAR was produced."
+            find target -maxdepth 2 -type f | sort || true
+            exit 1
+          }
+
+          echo "Validating final JAR: $JAR"
+
+          jar tf "$JAR" | grep -qx 'plugin.yml' || {
+            echo "ERROR: plugin.yml is not at the root of the final JAR."
+            jar tf "$JAR" | sort | head -200
+            exit 1
+          }
+
+          unzip -p "$JAR" plugin.yml | grep -q '^main: com\.wildmare\.wmorder\.WMOrderPlugin$' || {
+            echo "ERROR: plugin.yml contains an invalid main class."
+            unzip -p "$JAR" plugin.yml || true
+            exit 1
+          }
+
+          rm -rf release
+          mkdir -p release
+          cp "$JAR" release/WMOrder.jar
+
+          echo "Packaged descriptor:"
+          unzip -p release/WMOrder.jar plugin.yml
+          echo
+          echo "SHA-256:"
+          sha256sum release/WMOrder.jar
 
       - name: Print test reports after failure
         if: failure()
@@ -44,9 +94,9 @@ jobs:
             echo "No Surefire reports were generated."
           fi
 
-      - name: Upload WMOrder JAR
+      - name: Upload verified WMOrder JAR
         uses: actions/upload-artifact@v4
         with:
-          name: WMOrder
-          path: target/WMOrder-*.jar
+          name: WMOrder-verified
+          path: release/WMOrder.jar
           if-no-files-found: error
