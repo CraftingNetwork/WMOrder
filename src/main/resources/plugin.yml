@@ -1,0 +1,52 @@
+name: WMOrder
+version: '${project.version}'
+main: com.wildmare.wmorder.WMOrderPlugin
+api-version: '1.21'
+authors: [WildMare]
+description: Transaction-safe player-driven buy-order marketplace.
+website: https://github.com/CraftingNetwork/WMOrder
+depend: [Vault]
+softdepend: [PlaceholderAPI]
+
+commands:
+  order:
+    description: Open and manage the WMOrder marketplace.
+    usage: /order help
+    aliases: [orders, wmorder, buyorders]
+    permission: wmorder.use
+
+permissions:
+  wmorder.use: {default: true}
+  wmorder.browse: {default: true}
+  wmorder.create: {default: true}
+  wmorder.sell: {default: true}
+  wmorder.collect: {default: true}
+  wmorder.history: {default: true}
+  wmorder.cancel: {default: true}
+  wmorder.search: {default: true}
+  wmorder.notify: {default: true}
+  wmorder.bypass.cooldown: {default: op}
+  wmorder.bypass.limit: {default: op}
+  wmorder.admin:
+    default: op
+    children:
+      wmorder.admin.reload: true
+      wmorder.admin.inspect: true
+      wmorder.admin.cancel: true
+      wmorder.admin.freeze: true
+      wmorder.admin.refund: true
+      wmorder.admin.delete: true
+      wmorder.admin.migrate: true
+      wmorder.admin.stats: true
+      wmorder.admin.recover: true
+      wmorder.admin.debug: true
+  wmorder.admin.reload: {default: op}
+  wmorder.admin.inspect: {default: op}
+  wmorder.admin.cancel: {default: op}
+  wmorder.admin.freeze: {default: op}
+  wmorder.admin.refund: {default: op}
+  wmorder.admin.delete: {default: op}
+  wmorder.admin.migrate: {default: op}
+  wmorder.admin.stats: {default: op}
+  wmorder.admin.recover: {default: op}
+  wmorder.admin.debug: {default: op}

@@ -1,0 +1,21 @@
+# Database configuration. Restart the server after changing this file.
+config-version: 1
+type: SQLITE # SQLITE, MYSQL, or MARIADB
+sqlite:
+  file: "wmorder.db"
+  wal: true
+  busy-timeout-millis: 5000
+mysql:
+  host: "127.0.0.1"
+  port: 3306
+  database: "minecraft"
+  username: "wmorder"
+  password: "change-me"
+  parameters: "useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC"
+pool:
+  maximum-size: 10
+  minimum-idle: 1
+  connection-timeout-millis: 10000
+  validation-timeout-millis: 5000
+  idle-timeout-millis: 600000
+  max-lifetime-millis: 1800000

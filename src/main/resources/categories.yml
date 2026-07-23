@@ -1,0 +1,18 @@
+config-version: 1
+categories:
+  blocks:
+    name: "<green>Blocks"
+    icon: GRASS_BLOCK
+    materials: [STONE, COBBLESTONE, DIRT, GRASS_BLOCK, OAK_LOG, SPRUCE_LOG, SAND, GLASS]
+  ores:
+    name: "<aqua>Ores & Minerals"
+    icon: DIAMOND
+    materials: [COAL, IRON_INGOT, GOLD_INGOT, DIAMOND, EMERALD, NETHERITE_INGOT, REDSTONE, LAPIS_LAZULI]
+  farming:
+    name: "<yellow>Farming"
+    icon: WHEAT
+    materials: [WHEAT, CARROT, POTATO, BEETROOT, SUGAR_CANE, BAMBOO, CACTUS, PUMPKIN, MELON_SLICE]
+  combat:
+    name: "<red>Combat"
+    icon: DIAMOND_SWORD
+    materials: [DIAMOND_SWORD, NETHERITE_SWORD, BOW, CROSSBOW, SHIELD, ARROW]

@@ -1,0 +1,83 @@
+# WMOrder main configuration
+config-version: 1
+server-id: "default"
+locale: "en-US"
+
+orders:
+  default-duration: "7d"
+  minimum-duration: "1h"
+  maximum-duration: "30d"
+  expiration-batch-size: 100
+  expiration-check-interval-seconds: 30
+  history-retention-days: 90
+  cancellation-allowed: true
+  maximum-items-per-transaction: 2304
+  maximum-pending-collection-entries: 500
+
+performance:
+  database-threads: 4
+  database-queue-capacity: 2000
+  query-timeout-seconds: 10
+  shutdown-grace-seconds: 10
+  browser-page-size: 45
+  search-cache-seconds: 10
+  summary-cache-maximum: 5000
+  gui-refresh-cooldown-millis: 1000
+  searches-per-minute: 20
+  slow-query-millis: 250
+  debug-metrics: false
+
+economy:
+  currency-scale: 2
+  rounding-mode: "HALF_UP"
+  minimum-price-per-item: "0.01"
+  maximum-price-per-item: "1000000000.00"
+  minimum-total-order-value: "1.00"
+  maximum-total-order-value: "10000000000.00"
+  listing-fee:
+    flat: "0.00"
+    percent: "1.00"
+  creation-tax:
+    flat: "0.00"
+    percent: "0.00"
+  seller-tax:
+    flat: "0.00"
+    percent: "2.00"
+  cancellation-fee:
+    flat: "0.00"
+    percent: "0.00"
+  command-fallback:
+    enabled: false
+    withdraw-command: "eco take <player> <amount>"
+    deposit-command: "eco give <player> <amount>"
+
+notifications:
+  login-summary: true
+  chat: true
+  action-bar: false
+  title: false
+  sound: true
+
+limits:
+  default:
+    permission: "wmorder.limit.default"
+    priority: 0
+    max-active-orders: 5
+    max-quantity-per-order: 2304
+    max-total-value: "10000000.00"
+    duration: "7d"
+    creation-cooldown-seconds: 5
+    fulfillment-cooldown-seconds: 2
+    tax-reduction-percent: "0"
+    listing-fee-exempt: false
+  vip:
+    permission: "wmorder.limit.vip"
+    priority: 10
+    max-active-orders: 15
+    max-quantity-per-order: 10000
+    max-total-value: "50000000.00"
+    duration: "14d"
+    creation-cooldown-seconds: 2
+    fulfillment-cooldown-seconds: 1
+    tax-reduction-percent: "25"
+    listing-fee-exempt: false

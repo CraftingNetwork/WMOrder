@@ -1,0 +1,38 @@
+# Item validation and matching rules.
+config-version: 1
+matching-mode: EXACT # MATERIAL_ONLY, SIMILAR, EXACT
+allow-damaged-items: false
+allow-unstackable-items: true
+allow-container-items: true
+allow-shulker-box-orders: true
+scan-shulker-contents: false
+maximum-container-depth: 1
+maximum-serialized-item-bytes: 131072
+maximum-item-name-length: 128
+maximum-lore-lines: 64
+persistent-data:
+  allowed: true
+  ignored-namespaced-keys: []
+matching-ignore:
+  custom-model-data: false
+  display-name: false
+  lore: false
+  enchantments: false
+  attributes: false
+  damage: false
+  persistent-data: false
+  container-contents: false
+blacklist:
+  - BEDROCK
+  - BARRIER
+  - COMMAND_BLOCK
+  - CHAIN_COMMAND_BLOCK
+  - REPEATING_COMMAND_BLOCK
+  - STRUCTURE_BLOCK
+  - STRUCTURE_VOID
+  - JIGSAW
+  - DEBUG_STICK
+whitelist-mode: false
+whitelist: []
+custom-model-data-blacklist: []
+restricted-enchantments: []
