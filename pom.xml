@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.wildmare</groupId>
     <artifactId>wmorder</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.3</version>
     <name>WMOrder</name>
     <description>Ultra-optimized player-driven buy-order marketplace for Paper.</description>
     <url>https://github.com/CraftingNetwork/WMOrder</url>
@@ -94,12 +94,40 @@
     <build>
         <finalName>WMOrder-${project.version}</finalName>
         <resources>
+            <!-- Copy every runtime resource exactly as written. -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>plugin.yml</exclude>
+                </excludes>
+            </resource>
+
+            <!-- Filter only plugin.yml so ${project.version} is replaced safely. -->
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
+                <includes>
+                    <include>plugin.yml</include>
+                </includes>
             </resource>
         </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>true</addMavenDescriptor>
+                    </archive>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
